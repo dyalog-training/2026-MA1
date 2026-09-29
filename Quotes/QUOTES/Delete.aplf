@@ -1,0 +1,22 @@
+ r←Delete req;i
+⍝ DELETE /quotes/{quoteId}
+ :If '⍠SPEC'≡req
+     r←(
+         operationId:'DeleteQuote'
+         summary:'Withdraw a quotation'
+         tags:('quotes'⋄)
+         parameters:##.SPEC.parameters.quoteId
+         responses:(204 ⍬)(401(##.SPEC.Ref'Error'))(404(##.SPEC.Ref'Error'))
+     )
+     :Return
+ :EndIf
+ :Hold 'quotes'
+     :If 0=i←Find req.PathParams.quoteId
+         r←req NotFound req.PathParams.quoteId
+     :Else
+         quotes←quotes[(⍳≢quotes)~i]
+         req.SetStatus 204
+         'Content-Type'req.SetHeader'text/plain'   ⍝ stops Jarvis sending "" as JSON
+         r←''
+     :EndIf
+ :EndHold

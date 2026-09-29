@@ -1,0 +1,8 @@
+ q←id Price body;lines
+⍝ A Quote with this id, priced from the catalogue. body has passed VALIDATE.Request.
+ lines←{
+     p←(##.PRODUCTS.Catalogue.id⍳⊂⍵.productId)⊃##.PRODUCTS.Catalogue
+     n←⌊⍵.quantity
+     (productId:p.id ⋄ name:p.name ⋄ unitPricePence:p.unitPricePence ⋄ quantity:n ⋄ linePence:n×p.unitPricePence)
+ }¨body.items
+ q←(id:id ⋄ reference:body.reference ⋄ items:,lines ⋄ totalPence:+/lines.linePence)

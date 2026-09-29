@@ -1,0 +1,76 @@
+:Class Error
+    ⍝ code: str, required
+    ⍝ field: str, optional
+    ⍝ message: str, required
+
+    :Property code
+        :Access public
+        ∇ r←Get
+            r←⎕VGET ⊂'_code' (⊂'null')
+        ∇
+        ∇ Set args
+            _code←args.NewValue
+        ∇
+    :EndProperty
+
+    :Property field
+        :Access public
+        ∇ r←Get
+            r←⎕VGET ⊂'_field' (⊂'null')
+        ∇
+        ∇ Set args
+            _field←args.NewValue
+        ∇
+    :EndProperty
+
+    :Property message
+        :Access public
+        ∇ r←Get
+            r←⎕VGET ⊂'_message' (⊂'null')
+        ∇
+        ∇ Set args
+            _message←args.NewValue
+        ∇
+    :EndProperty
+
+    ∇ make0
+        :Access public
+        :Implements constructor
+    ∇
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ Validate required fields (readOnly fields are server-generated, not required from caller)
+        missing←'code' 'message'~args.⎕NL ¯2
+        :If 0<⍴missing
+            ⎕SIGNAL ⊂('EN' 11)('Message'('Missing required fields: ',1↓∊(⊂', '),¨missing))
+        :EndIf
+        ⍝ Set properties through their setters
+        :If 2=args.⎕NC 'code' ⋄ code←args.code ⋄ :EndIf
+        :If 2=args.⎕NC 'field' ⋄ field←args.field ⋄ :EndIf
+        :If 2=args.⎕NC 'message' ⋄ message←args.message ⋄ :EndIf
+    ∇
+
+    ∇ build←FormatNS
+        :Access public
+        build←⎕NS ''
+        :If 2=⎕NC '_code'
+            build.code←code
+        :EndIf
+        :If 2=⎕NC '_field'
+            build.field←field
+        :EndIf
+        :If 2=⎕NC '_message'
+            build.message←message
+        :EndIf
+    ∇
+
+    ∇ inst←FromResponse ns
+        :Access public
+        inst←⎕THIS
+        :If 0<ns.⎕NC 'code' ⋄ inst._code←ns.code ⋄ :EndIf
+        :If 0<ns.⎕NC 'field' ⋄ inst._field←ns.field ⋄ :EndIf
+        :If 0<ns.⎕NC 'message' ⋄ inst._message←ns.message ⋄ :EndIf
+    ∇
+:EndClass

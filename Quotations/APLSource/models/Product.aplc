@@ -1,0 +1,92 @@
+:Class Product
+    ⍝ description: str, required
+    ⍝ id: str, required
+    ⍝ name: str, required
+    ⍝ unitPricePence: int, required
+
+    :Property description
+        :Access public
+        ∇ r←Get
+            r←⎕VGET ⊂'_description' (⊂'null')
+        ∇
+        ∇ Set args
+            _description←args.NewValue
+        ∇
+    :EndProperty
+
+    :Property id
+        :Access public
+        ∇ r←Get
+            r←⎕VGET ⊂'_id' (⊂'null')
+        ∇
+        ∇ Set args
+            _id←args.NewValue
+        ∇
+    :EndProperty
+
+    :Property name
+        :Access public
+        ∇ r←Get
+            r←⎕VGET ⊂'_name' (⊂'null')
+        ∇
+        ∇ Set args
+            _name←args.NewValue
+        ∇
+    :EndProperty
+
+    :Property unitPricePence
+        :Access public
+        ∇ r←Get
+            r←⎕VGET ⊂'_unitPricePence' (⊂'null')
+        ∇
+        ∇ Set args
+            _unitPricePence←args.NewValue
+        ∇
+    :EndProperty
+
+    ∇ make0
+        :Access public
+        :Implements constructor
+    ∇
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ Validate required fields (readOnly fields are server-generated, not required from caller)
+        missing←'description' 'id' 'name' 'unitPricePence'~args.⎕NL ¯2
+        :If 0<⍴missing
+            ⎕SIGNAL ⊂('EN' 11)('Message'('Missing required fields: ',1↓∊(⊂', '),¨missing))
+        :EndIf
+        ⍝ Set properties through their setters
+        :If 2=args.⎕NC 'description' ⋄ description←args.description ⋄ :EndIf
+        :If 2=args.⎕NC 'id' ⋄ id←args.id ⋄ :EndIf
+        :If 2=args.⎕NC 'name' ⋄ name←args.name ⋄ :EndIf
+        :If 2=args.⎕NC 'unitPricePence' ⋄ unitPricePence←args.unitPricePence ⋄ :EndIf
+    ∇
+
+    ∇ build←FormatNS
+        :Access public
+        build←⎕NS ''
+        :If 2=⎕NC '_description'
+            build.description←description
+        :EndIf
+        :If 2=⎕NC '_id'
+            build.id←id
+        :EndIf
+        :If 2=⎕NC '_name'
+            build.name←name
+        :EndIf
+        :If 2=⎕NC '_unitPricePence'
+            build.unitPricePence←unitPricePence
+        :EndIf
+    ∇
+
+    ∇ inst←FromResponse ns
+        :Access public
+        inst←⎕THIS
+        :If 0<ns.⎕NC 'description' ⋄ inst._description←ns.description ⋄ :EndIf
+        :If 0<ns.⎕NC 'id' ⋄ inst._id←ns.id ⋄ :EndIf
+        :If 0<ns.⎕NC 'name' ⋄ inst._name←ns.name ⋄ :EndIf
+        :If 0<ns.⎕NC 'unitPricePence' ⋄ inst._unitPricePence←ns.unitPricePence ⋄ :EndIf
+    ∇
+:EndClass

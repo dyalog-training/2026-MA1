@@ -1,0 +1,42 @@
+response←DeleteQuote argsNs;headerParams;queryParams;body;clientArgs;secSchemes
+⍝ DELETE /quotes/{quoteId}
+⍝ Withdraw a quotation
+⍝
+⍝ Parameters:
+⍝   - quoteId (in: path) [required]: Integer
+headerParams←⍬
+queryParams←()
+body←()
+
+⍝ Path parameter: quoteId
+:If 2≠argsNs.⎕NC'quoteId'
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: quoteId')
+:EndIf
+:If ~c.∆.utils.isValidPathParam argsNs.quoteId
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Invalid parameter: quoteId (must be a character vector or scalar number)')
+:EndIf
+:If 2|⎕DR argsNs.quoteId ⍝ If numeric, convert to string
+    argsNs.quoteId←⍕argsNs.quoteId
+:EndIf
+
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'delete'
+    URL: ('/quotes/',(c.∆.HttpCommand.UrlEncode⍕argsNs.quoteId) ⋄ ())
+    Headers: headerParams
+)
+
+secSchemes←⍬
+secSchemes,←⊂'apiKey'
+⍝ Auth fn
+clientArgs←clientArgs c.∆.utils.Authenticate secSchemes
+
+queryParams←queryParams ⎕NS 2⊃clientArgs.URL
+clientArgs.URL←⊃clientArgs.URL
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode (queryParams)
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

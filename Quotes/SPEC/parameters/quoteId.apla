@@ -1,0 +1,4 @@
+(
+    (name:'quoteId' ⋄ in:'path' ⋄ required:⊂'true' ⋄ schema:(type:'integer')
+     description:'The id of a quotation, as returned when it was created')
+⋄)

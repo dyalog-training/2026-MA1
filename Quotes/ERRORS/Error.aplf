@@ -1,0 +1,4 @@
+ r←Error(code message field)
+⍝ An Error body; field is omitted when ''
+ r←(code:code ⋄ message:message)
+ :If ×≢field ⋄ r.field←field ⋄ :EndIf

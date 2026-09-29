@@ -1,0 +1,4 @@
+(
+    (name:'productId' ⋄ in:'path' ⋄ required:⊂'true' ⋄ schema:(type:'string')
+     description:'A product id from the catalogue, e.g. NB (case-sensitive)')
+⋄)

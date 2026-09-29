@@ -1,0 +1,3 @@
+ r←req NotFound message
+⍝ Fail the request with 404 NOT_FOUND
+ r←req Reject 404 'NOT_FOUND' message ''

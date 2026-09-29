@@ -1,0 +1,11 @@
+(
+    type:'object'
+    required:'productId' 'name' 'unitPricePence' 'quantity' 'linePence'
+    properties:(
+        productId:(type:'string')
+        name:(type:'string' ⋄ description:'From the catalogue')
+        unitPricePence:(type:'integer' ⋄ description:'From the catalogue')
+        quantity:(type:'integer' ⋄ description:'As submitted')
+        linePence:(type:'integer' ⋄ description:'unitPricePence × quantity')
+    )
+)

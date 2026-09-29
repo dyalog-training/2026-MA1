@@ -1,0 +1,19 @@
+(
+    type:'object'
+    required:'id' 'reference' 'items' 'totalPence'
+    properties:(
+        id:(type:'integer' ⋄ description:'Allocated by the server')
+        reference:(type:'string' ⋄ description:'As submitted')
+        items:(type:'array' ⋄ items:(⍙⍙36⍙ref:'#/components/schemas/QuoteLine') ⋄ description:'In submitted order')
+        totalPence:(type:'integer' ⋄ description:'Sum of linePence')
+    )
+    example:(
+        id:7
+        reference:'desk-03'
+        items:(
+            (productId:'NB'  ⋄ name:'Notebook' ⋄ unitPricePence:400 ⋄ quantity:20 ⋄ linePence:8000)
+            (productId:'PEN' ⋄ name:'Pen'      ⋄ unitPricePence:200 ⋄ quantity:20 ⋄ linePence:4000)
+        )
+        totalPence:12000
+    )
+)

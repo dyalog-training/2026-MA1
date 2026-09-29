@@ -1,0 +1,42 @@
+response←GetProduct argsNs;headerParams;queryParams;body;clientArgs;secSchemes
+⍝ GET /products/{productId}
+⍝ Retrieve one product
+⍝
+⍝ Parameters:
+⍝   - productId (in: path) [required]: String
+headerParams←⍬
+queryParams←()
+body←()
+
+⍝ Path parameter: productId
+:If 2≠argsNs.⎕NC'productId'
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: productId')
+:EndIf
+:If ~c.∆.utils.isValidPathParam argsNs.productId
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Invalid parameter: productId (must be a character vector or scalar number)')
+:EndIf
+:If 2|⎕DR argsNs.productId ⍝ If numeric, convert to string
+    argsNs.productId←⍕argsNs.productId
+:EndIf
+
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'get'
+    URL: ('/products/',(c.∆.HttpCommand.UrlEncode⍕argsNs.productId) ⋄ ())
+    Headers: headerParams
+)
+
+secSchemes←⍬
+secSchemes,←⊂'apiKey'
+⍝ Auth fn
+clientArgs←clientArgs c.∆.utils.Authenticate secSchemes
+
+queryParams←queryParams ⎕NS 2⊃clientArgs.URL
+clientArgs.URL←⊃clientArgs.URL
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode (queryParams)
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

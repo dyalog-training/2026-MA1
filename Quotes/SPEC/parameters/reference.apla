@@ -1,0 +1,4 @@
+(
+    (name:'reference' ⋄ in:'query' ⋄ required:⊂'false' ⋄ schema:(type:'string')
+     description:'Return only the quotations whose reference is exactly this, e.g. desk-03')
+⋄)

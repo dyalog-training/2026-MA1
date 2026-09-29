@@ -1,0 +1,9 @@
+(
+    type:'object'
+    required:'productId' 'quantity'
+    properties:(
+        productId:(type:'string' ⋄ description:'Must be a catalogue id')
+        quantity:(type:'integer' ⋄ minimum:1)
+    )
+    example:(productId:'NB' ⋄ quantity:20)
+)

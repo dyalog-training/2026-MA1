@@ -1,0 +1,147 @@
+response←GetV1Forecast argsNs;headerParams;queryParams;body;clientArgs;secSchemes
+⍝ GET /v1/forecast
+⍝ Open-Meteo Weather Forecast API
+⍝ Open-Meteo offers free weather forecast APIs for open-source developers and non-commercial use.
+⍝
+⍝ Parameters:
+⍝   - latitude (in: query) [required]: String
+⍝   - longitude (in: query) [required]: String
+⍝   - hourly (in: query) [optional]: Array
+⍝   - daily (in: query) [optional]: Array
+⍝   - current (in: query) [optional]: Array
+⍝   - minutely_15 (in: query) [optional]: Array
+⍝   - elevation (in: query) [optional]: Number
+⍝   - temperature_unit (in: query) [optional]: String
+⍝   - wind_speed_unit (in: query) [optional]: String
+⍝   - precipitation_unit (in: query) [optional]: String
+⍝   - timeformat (in: query) [optional]: String
+⍝   - timezone (in: query) [optional]: String
+⍝   - past_days (in: query) [optional]: Integer
+⍝   - forecast_days (in: query) [optional]: Integer
+⍝   - past_hours (in: query) [optional]: Integer
+⍝   - forecast_hours (in: query) [optional]: Integer
+⍝   - start_date (in: query) [optional]: String
+⍝   - end_date (in: query) [optional]: String
+⍝   - tilt (in: query) [optional]: Number
+⍝   - azimuth (in: query) [optional]: Number
+⍝   - cell_selection (in: query) [optional]: String
+⍝   - apikey (in: query) [optional]: String
+⍝   - models (in: query) [optional]: Array
+headerParams←⍬
+queryParams←()
+body←()
+
+⍝ Query parameter: latitude
+:If (2=argsNs.⎕NC'latitude')
+    queryParams.latitude←argsNs.latitude
+:Else
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: latitude')
+:EndIf
+⍝ Query parameter: longitude
+:If (2=argsNs.⎕NC'longitude')
+    queryParams.longitude←argsNs.longitude
+:Else
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: longitude')
+:EndIf
+⍝ Query parameter: hourly
+:If (2=argsNs.⎕NC'hourly')
+    queryParams.hourly←','c.∆.utils.joinArray argsNs.hourly ⍝ explode: false
+:EndIf
+⍝ Query parameter: daily
+:If (2=argsNs.⎕NC'daily')
+    queryParams.daily←','c.∆.utils.joinArray argsNs.daily ⍝ explode: false
+:EndIf
+⍝ Query parameter: current
+:If (2=argsNs.⎕NC'current')
+    queryParams.current←','c.∆.utils.joinArray argsNs.current ⍝ explode: false
+:EndIf
+⍝ Query parameter: minutely_15
+:If (2=argsNs.⎕NC'minutely_15')
+    queryParams.minutely_15←','c.∆.utils.joinArray argsNs.minutely_15 ⍝ explode: false
+:EndIf
+⍝ Query parameter: elevation
+:If (2=argsNs.⎕NC'elevation')
+    queryParams.elevation←argsNs.elevation
+:EndIf
+⍝ Query parameter: temperature_unit
+:If (2=argsNs.⎕NC'temperature_unit')
+    queryParams.temperature_unit←argsNs.temperature_unit
+:EndIf
+⍝ Query parameter: wind_speed_unit
+:If (2=argsNs.⎕NC'wind_speed_unit')
+    queryParams.wind_speed_unit←argsNs.wind_speed_unit
+:EndIf
+⍝ Query parameter: precipitation_unit
+:If (2=argsNs.⎕NC'precipitation_unit')
+    queryParams.precipitation_unit←argsNs.precipitation_unit
+:EndIf
+⍝ Query parameter: timeformat
+:If (2=argsNs.⎕NC'timeformat')
+    queryParams.timeformat←argsNs.timeformat
+:EndIf
+⍝ Query parameter: timezone
+:If (2=argsNs.⎕NC'timezone')
+    queryParams.timezone←argsNs.timezone
+:EndIf
+⍝ Query parameter: past_days
+:If (2=argsNs.⎕NC'past_days')
+    queryParams.past_days←argsNs.past_days
+:EndIf
+⍝ Query parameter: forecast_days
+:If (2=argsNs.⎕NC'forecast_days')
+    queryParams.forecast_days←argsNs.forecast_days
+:EndIf
+⍝ Query parameter: past_hours
+:If (2=argsNs.⎕NC'past_hours')
+    queryParams.past_hours←argsNs.past_hours
+:EndIf
+⍝ Query parameter: forecast_hours
+:If (2=argsNs.⎕NC'forecast_hours')
+    queryParams.forecast_hours←argsNs.forecast_hours
+:EndIf
+⍝ Query parameter: start_date
+:If (2=argsNs.⎕NC'start_date')
+    queryParams.start_date←argsNs.start_date
+:EndIf
+⍝ Query parameter: end_date
+:If (2=argsNs.⎕NC'end_date')
+    queryParams.end_date←argsNs.end_date
+:EndIf
+⍝ Query parameter: tilt
+:If (2=argsNs.⎕NC'tilt')
+    queryParams.tilt←argsNs.tilt
+:EndIf
+⍝ Query parameter: azimuth
+:If (2=argsNs.⎕NC'azimuth')
+    queryParams.azimuth←argsNs.azimuth
+:EndIf
+⍝ Query parameter: cell_selection
+:If (2=argsNs.⎕NC'cell_selection')
+    queryParams.cell_selection←argsNs.cell_selection
+:EndIf
+⍝ Query parameter: apikey
+:If (2=argsNs.⎕NC'apikey')
+    queryParams.apikey←argsNs.apikey
+:EndIf
+⍝ Query parameter: models
+:If (2=argsNs.⎕NC'models')
+    queryParams.models←','c.∆.utils.joinArray argsNs.models ⍝ explode: false
+:EndIf
+
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'get'
+    URL: ('/v1/forecast' ⋄ ())
+    Headers: headerParams
+)
+
+
+queryParams←queryParams ⎕NS 2⊃clientArgs.URL
+clientArgs.URL←⊃clientArgs.URL
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode (queryParams)
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

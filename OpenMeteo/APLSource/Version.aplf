@@ -1,0 +1,4 @@
+r←Version
+⍝ Return the current version
+:Access public shared
+r←'Open-Meteo Weather Forecast API' '1.0' '2026-09-29'

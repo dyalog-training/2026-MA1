@@ -1,0 +1,60 @@
+:Class QuoteItem
+    ⍝ productId: str, required
+    ⍝ quantity: int, required
+
+    :Property productId
+        :Access public
+        ∇ r←Get
+            r←⎕VGET ⊂'_productId' (⊂'null')
+        ∇
+        ∇ Set args
+            _productId←args.NewValue
+        ∇
+    :EndProperty
+
+    :Property quantity
+        :Access public
+        ∇ r←Get
+            r←⎕VGET ⊂'_quantity' (⊂'null')
+        ∇
+        ∇ Set args
+            _quantity←args.NewValue
+        ∇
+    :EndProperty
+
+    ∇ make0
+        :Access public
+        :Implements constructor
+    ∇
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ Validate required fields (readOnly fields are server-generated, not required from caller)
+        missing←'productId' 'quantity'~args.⎕NL ¯2
+        :If 0<⍴missing
+            ⎕SIGNAL ⊂('EN' 11)('Message'('Missing required fields: ',1↓∊(⊂', '),¨missing))
+        :EndIf
+        ⍝ Set properties through their setters
+        :If 2=args.⎕NC 'productId' ⋄ productId←args.productId ⋄ :EndIf
+        :If 2=args.⎕NC 'quantity' ⋄ quantity←args.quantity ⋄ :EndIf
+    ∇
+
+    ∇ build←FormatNS
+        :Access public
+        build←⎕NS ''
+        :If 2=⎕NC '_productId'
+            build.productId←productId
+        :EndIf
+        :If 2=⎕NC '_quantity'
+            build.quantity←quantity
+        :EndIf
+    ∇
+
+    ∇ inst←FromResponse ns
+        :Access public
+        inst←⎕THIS
+        :If 0<ns.⎕NC 'productId' ⋄ inst._productId←ns.productId ⋄ :EndIf
+        :If 0<ns.⎕NC 'quantity' ⋄ inst._quantity←ns.quantity ⋄ :EndIf
+    ∇
+:EndClass

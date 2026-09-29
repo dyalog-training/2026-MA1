@@ -1,0 +1,11 @@
+ r←fail OnFail req;allow
+⍝ Stark's OnFailFn: Error bodies for the responses Stark writes itself
+ :Select fail.reason
+ :CaseList 'no_credential' 'rejected'
+     r←##.AUTH.Unauthorized
+ :Case 'method_not_allowed'
+     allow←req.Response.Headers{((⎕C ⍺[;1])⍳⊂⍵)⊃⍺[;2],⊂''}'allow'
+     r←Error'METHOD_NOT_ALLOWED'('Use ',allow,' on ',req.Endpoint,'.')''
+ :Else
+     r←Error'NOT_FOUND'('No route for ',(1⎕C req.Method),' ',req.Endpoint,'.')''
+ :EndSelect

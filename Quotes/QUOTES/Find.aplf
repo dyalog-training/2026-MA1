@@ -1,0 +1,5 @@
+ i←Find text
+⍝ Index of the stored quotation with this path id, or 0. Call inside :Hold 'quotes'.
+ i←0
+ →0⍴⍨(0=≢quotes)∨(0=≢text)∨~∧/text∊⎕D
+ i←{⍵×⍵≤≢quotes}quotes.id⍳⍎text

@@ -1,0 +1,5 @@
+(
+    (id:'NB'  ⋄ name:'Notebook' ⋄ description:'A5 ruled notebook, 80 pages' ⋄ unitPricePence:400)
+    (id:'PEN' ⋄ name:'Pen'      ⋄ description:'Black ballpoint pen'         ⋄ unitPricePence:200)
+    (id:'FLD' ⋄ name:'Folder'   ⋄ description:'A4 card folder'              ⋄ unitPricePence:300)
+)

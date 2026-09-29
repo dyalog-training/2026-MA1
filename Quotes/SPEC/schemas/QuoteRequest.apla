@@ -1,0 +1,20 @@
+(
+    type:'object'
+    required:'reference' 'items'
+    properties:(
+        reference:(type:'string' ⋄ description:'Not blank. By convention desk- plus your two-digit seat number. Not unique.')
+        items:(
+            type:'array'
+            minItems:1
+            items:(⍙⍙36⍙ref:'#/components/schemas/QuoteItem')
+            description:'At least one item; each productId at most once'
+        )
+    )
+    example:(
+        reference:'desk-03'
+        items:(
+            (productId:'NB'  ⋄ quantity:20)
+            (productId:'PEN' ⋄ quantity:20)
+        )
+    )
+)

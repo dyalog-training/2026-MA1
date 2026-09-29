@@ -1,0 +1,3 @@
+ r←req NotFound text
+⍝ 404 for a quoteId that is not a stored quotation
+ r←req ##.ERRORS.NotFound'No quotation with id ',text,'.'

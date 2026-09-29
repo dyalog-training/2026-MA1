@@ -1,0 +1,7 @@
+ user←auth CheckKey req
+⍝ Security hook for the apiKey scheme. One key for the room: authenticated, but anonymous.
+ :If auth.credential≡##.Key
+     user←'room'
+ :Else
+     user←auth.Reject Unauthorized
+ :EndIf

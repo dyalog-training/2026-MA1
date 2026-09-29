@@ -1,0 +1,3 @@
+ r←Unauthorized
+⍝ The 401 body, for a wrong key (CheckKey) and a missing one (ERRORS.OnFail)
+ r←##.ERRORS.Error'UNAUTHORIZED' 'A valid X-API-Key header is required.' ''

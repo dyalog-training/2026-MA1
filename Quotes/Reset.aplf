@@ -1,0 +1,7 @@
+ Reset
+⍝ Empty the store and restart IDs at 1, without restarting the server.
+⍝ Every access to QUOTES.quotes and QUOTES.nextId is inside :Hold 'quotes'.
+ :Hold 'quotes'
+     QUOTES.quotes←⍬      ⍝ stored Quote namespaces, in ascending id order
+     QUOTES.nextId←1      ⍝ never reused, even after a delete
+ :EndHold

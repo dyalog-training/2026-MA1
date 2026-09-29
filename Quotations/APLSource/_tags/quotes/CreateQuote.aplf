@@ -1,0 +1,41 @@
+response←CreateQuote argsNs;headerParams;queryParams;body;clientArgs;secSchemes
+⍝ POST /quotes
+⍝ Create a quotation
+⍝ Prices the items from the catalogue and stores the quotation.
+⍝
+⍝ Request Body:
+⍝   - application/json: quoteRequest schema (required)
+headerParams←⍬
+queryParams←()
+body←()
+
+
+⍝ Request body (JSON)
+:If (0≠argsNs.⎕NC'quoteRequest')
+    body←argsNs.quoteRequest
+:Else
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: quoteRequest')
+:EndIf
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'post'
+    URL: ('/quotes' ⋄ ())
+    Headers: headerParams
+    Params: body
+    ContentType: 'application/json'
+)
+
+secSchemes←⍬
+secSchemes,←⊂'apiKey'
+⍝ Auth fn
+clientArgs←clientArgs c.∆.utils.Authenticate secSchemes
+
+queryParams←queryParams ⎕NS 2⊃clientArgs.URL
+clientArgs.URL←⊃clientArgs.URL
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode (queryParams)
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

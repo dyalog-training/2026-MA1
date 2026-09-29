@@ -1,0 +1,12 @@
+ r←List req
+⍝ GET /products
+ :If '⍠SPEC'≡req
+     r←(
+         operationId:'ListProducts'
+         summary:'List the products in the catalogue'
+         tags:('products'⋄)
+         responses:(200(type:'array' ⋄ items:##.SPEC.Ref'Product'))(401(##.SPEC.Ref'Error'))
+     )
+     :Return
+ :EndIf
+ r←Catalogue

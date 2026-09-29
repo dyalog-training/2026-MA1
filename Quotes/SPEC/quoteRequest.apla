@@ -1,0 +1,4 @@
+(
+    required:⊂'true'
+    content:(⍙application⍙47⍙json:(schema:(⍙⍙36⍙ref:'#/components/schemas/QuoteRequest')))
+)

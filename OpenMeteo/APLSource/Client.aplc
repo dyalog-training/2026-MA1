@@ -1,0 +1,34 @@
+:Class Client
+    ⍝ Open-Meteo Weather Forecast API - Version 1.0
+    ⍝ Open-Meteo offers free weather forecast APIs for open-source developers and non-commercial use.
+
+    :field public ∆ ⍝ Client specific "stuff"
+    :field public weatherForecastAPIs ⍝ weatherForecastAPIs tag
+
+    ∇ ∆make config
+        :Access public
+        :Implements constructor
+        :If 0=config.⎕NC'baseUrl'
+            ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: baseUrl')
+        :EndIf
+
+        ∆←()
+        ∆.config←⎕NS config
+        ∆.config.mock←∆.config ⎕VGET ⊂'mock' ¯1 ⍝ ¯1 by default. 1 means return the raw HTTP request. 2 means return the namespace that would be sent to HttpCommand.
+        ∆.Debug←0 ⍝ Set to 1 to log the raw HTTP request sent to the server. Not compatible with mock=2
+
+        ∆.Cookies←⍬
+
+        ⍝ Some utility functions
+        ∆.utils←⎕NS (⊃∊⎕CLASS ⎕THIS).##.utils
+        ∆.utils.c←⎕THIS
+
+        ∆.Version←(⊃∊⎕CLASS ⎕THIS).##.Version
+
+        ∆.HttpCommand←(⊃∊⎕CLASS ⎕THIS).##.HttpCommand
+
+        ⍝ Initialize all tag namespaces
+        weatherForecastAPIs←⎕NS (⊃∊⎕CLASS ⎕THIS).##._tags.weatherForecastAPIs
+        weatherForecastAPIs.c←⎕THIS
+    ∇
+:EndClass

@@ -1,0 +1,19 @@
+ r←Get req;i
+⍝ GET /quotes/{quoteId}
+ :If '⍠SPEC'≡req
+     r←(
+         operationId:'GetQuote'
+         summary:'Retrieve one quotation'
+         tags:('quotes'⋄)
+         parameters:##.SPEC.parameters.quoteId
+         responses:(200(##.SPEC.Ref'Quote'))(401(##.SPEC.Ref'Error'))(404(##.SPEC.Ref'Error'))
+     )
+     :Return
+ :EndIf
+ :Hold 'quotes'
+     :If 0=i←Find req.PathParams.quoteId
+         r←req NotFound req.PathParams.quoteId
+     :Else
+         r←i⊃quotes
+     :EndIf
+ :EndHold

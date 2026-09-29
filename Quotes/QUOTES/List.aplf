@@ -1,0 +1,21 @@
+ r←List req;ref
+⍝ GET /quotes, optionally ?reference=
+ :If '⍠SPEC'≡req
+     r←(
+         operationId:'ListQuotes'
+         summary:'List quotations'
+         tags:('quotes'⋄)
+         parameters:##.SPEC.parameters.reference
+         responses:(200(type:'array' ⋄ items:##.SPEC.Ref'Quote'))(401(##.SPEC.Ref'Error'))
+     )
+     :Return
+ :EndIf
+ :Hold 'quotes'
+     r←quotes
+ :EndHold
+ :If 0≠req.QueryParams.⎕NC'reference'
+ :AndIf ×≢r
+     ref←,req.QueryParams.reference
+     r←(ref∘≡¨,¨r.reference)/r
+ :EndIf
+ r←,r

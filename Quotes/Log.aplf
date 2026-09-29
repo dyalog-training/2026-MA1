@@ -1,0 +1,13 @@
+ r Log req;status;method;line
+⍝ Stark's OnResponseFn: one line per request for the projector
+ status←req.Response.Status
+ method←1⎕C req.Method
+ line←(,'ZI2,<:>,ZI2,<:>,ZI2'⎕FMT 1 3⍴3↑3↓⎕TS),'  ',(6↑method),' ',(18↑req.Endpoint),' ',⍕status
+ :If 2≠⌊status÷100
+     line,←'  ',{0::'' ⋄ ⍵.code}r
+ :ElseIf (⊂method)∊'POST' 'PUT'
+     line,←'  id ',(⍕r.id),'  total ',⍕r.totalPence
+ :ElseIf 'DELETE'≡method
+     line,←'  id ',req.PathParams.quoteId
+ :EndIf
+ ⎕←line

@@ -1,0 +1,4 @@
+ r←req Reject(status code message field)
+⍝ Fail the request with status and return the Error body
+ req.Fail status
+ r←Error code message field

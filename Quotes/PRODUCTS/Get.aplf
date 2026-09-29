@@ -1,0 +1,18 @@
+ r←Get req;id;i
+⍝ GET /products/{productId}
+ :If '⍠SPEC'≡req
+     r←(
+         operationId:'GetProduct'
+         summary:'Retrieve one product'
+         tags:('products'⋄)
+         parameters:##.SPEC.parameters.productId
+         responses:(200(##.SPEC.Ref'Product'))(401(##.SPEC.Ref'Error'))(404(##.SPEC.Ref'Error'))
+     )
+     :Return
+ :EndIf
+ id←req.PathParams.productId
+ :If (≢Catalogue)<i←Catalogue.id⍳⊂id
+     r←req ##.ERRORS.NotFound'No product with id ',id,'.'
+ :Else
+     r←i⊃Catalogue
+ :EndIf

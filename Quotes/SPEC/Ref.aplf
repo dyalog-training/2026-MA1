@@ -1,0 +1,1 @@
+ Ref←{()⎕VSET⊂'⍙⍙36⍙ref'('#/components/schemas/',⍵)}   ⍝ {"$ref": "#/components/schemas/⍵"}

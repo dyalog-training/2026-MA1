@@ -1,0 +1,33 @@
+ bad←Request body;ref;items;pids;m;i;ids
+⍝ '' if body is a valid QuoteRequest, otherwise (code message field) for the first
+⍝ failure in the order of ServiceSpec §6 rules 3 to 9
+ bad←''
+ ids←##.##.PRODUCTS.Catalogue.id
+ :If 9≠⎕NC'body' ⋄ body←() ⋄ :EndIf
+ ref←body⎕VGET⊂'reference'⍬
+ :If ~IsText ref
+ :OrIf ∧/' '=ref
+     →0⊣bad←'INVALID_REFERENCE' 'reference is required.' 'reference'
+ :EndIf
+ items←body⎕VGET⊂'items'⍬
+ :If 9=⎕NC'items'
+     →0⊣bad←'INVALID_ITEMS' 'items must be an array, even for one item; an object was received.' 'items'
+ :EndIf
+ :If (1≠≢⍴items)∨(0=≢items)∨IsText items
+     →0⊣bad←'INVALID_ITEMS' 'items must be a non-empty array of {productId, quantity}.' 'items'
+ :EndIf
+ :If ∨/m←{x←⍵ ⋄ 9≠⊃⎕NC'x'}¨items
+     →0⊣bad←'INVALID_ITEMS' 'Each item must be an object {productId, quantity}.'(At m⍳1)
+ :EndIf
+ :If ∨/m←~{IsCount ⍵⎕VGET⊂'quantity'⍬}¨items
+     →0⊣bad←'INVALID_QUANTITY' 'Quantity must be a positive integer; omit the item to remove it from the quotation.'((At m⍳1),'.quantity')
+ :EndIf
+ pids←{⍵⎕VGET⊂'productId'⍬}¨items
+ :If ∨/m←~{IsText ⍵:(⊂⍵)∊ids ⋄ 0}¨pids
+     i←m⍳1
+     →0⊣bad←'UNKNOWN_PRODUCT'(((i⊃items){0=⍺.⎕NC'productId':'productId is required' ⋄ IsText ⍵:'Unknown product ',⍵ ⋄ 'Unknown product ',1⎕JSON ⍵}i⊃pids),'. Use an id from GET /products.')((At i),'.productId')
+ :EndIf
+ :If ∨/m←~≠pids
+     i←m⍳1
+     →0⊣bad←'DUPLICATE_PRODUCT'('Product ',(i⊃pids),' appears more than once; change its quantity instead.')((At i),'.productId')
+ :EndIf

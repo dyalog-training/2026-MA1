@@ -1,0 +1,4 @@
+r←Version
+⍝ Return the current version
+:Access public shared
+r←'Quotations' '1.0.0' '2026-09-29'

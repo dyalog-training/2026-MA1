@@ -1,0 +1,24 @@
+ r←Replace req;i;bad
+⍝ PUT /quotes/{quoteId}
+ :If '⍠SPEC'≡req
+     r←(
+         operationId:'ReplaceQuote'
+         summary:'Replace a quotation'
+         description:'Replaces the reference and items in full and recomputes the totals. The id is kept.'
+         tags:('quotes'⋄)
+         parameters:##.SPEC.parameters.quoteId
+         requestBody:##.SPEC.quoteRequest
+         responses:(200(##.SPEC.Ref'Quote'))(400(##.SPEC.Ref'Error'))(401(##.SPEC.Ref'Error'))(404(##.SPEC.Ref'Error'))
+     )
+     :Return
+ :EndIf
+ :Hold 'quotes'
+     :If 0=i←Find req.PathParams.quoteId
+         r←req NotFound req.PathParams.quoteId
+     :ElseIf ×≢bad←VALIDATE.Request req.Payload
+         r←req ##.ERRORS.Reject 400,bad
+     :Else
+         r←(i⊃quotes).id Price req.Payload
+         quotes[i]←r
+     :EndIf
+ :EndHold

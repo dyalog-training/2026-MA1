@@ -1,0 +1,3 @@
+ Stop
+⍝ Stop the server
+ router.Stop

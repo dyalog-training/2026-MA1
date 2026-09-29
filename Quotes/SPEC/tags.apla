@@ -1,0 +1,4 @@
+(
+    (name:'products' ⋄ description:'The product catalogue (read only)')
+    (name:'quotes'   ⋄ description:'Quotations built from the catalogue')
+)

@@ -1,0 +1,11 @@
+(
+    type:'object'
+    required:'id' 'name' 'description' 'unitPricePence'
+    properties:(
+        id:(type:'string')
+        name:(type:'string')
+        description:(type:'string')
+        unitPricePence:(type:'integer')
+    )
+    example:(id:'NB' ⋄ name:'Notebook' ⋄ description:'A5 ruled notebook, 80 pages' ⋄ unitPricePence:400)
+)

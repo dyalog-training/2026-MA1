@@ -1,0 +1,32 @@
+ Start
+⍝ Serve the quotations service on Port with an empty store.
+⍝ Thread is Stark's ThreadMode: 1 (the default) serves until Stop and does not return;
+⍝ 'DEBUG' returns at once, leaving the session free for Board and Reset.
+⍝ Each handler describes its own operation: Handler'⍠SPEC' returns the OpenAPI metadata.
+ Reset
+ router←##.Stark.New ⍬
+ router.ThreadMode←Thread
+ router.Info←(
+     title:'Quotations'
+     version:'1.0.0'
+     description:'Prepare, revise and withdraw quotations for office supplies from a fixed catalogue.'
+ )
+ router.AddSecurity'apiKey'(type:'apiKey' ⋄ in:'header' ⋄ name:'X-API-Key')'AUTH.CheckKey'
+ router.Spec←(
+     tags:SPEC.tags
+     components:(schemas:SPEC.schemas)
+     security:,(apiKey:⍬)                      ⍝ every route needs the key
+ )
+ router.OnFailFn←'ERRORS.OnFail'               ⍝ Error bodies for Stark's own 401/404/405
+ router.OnErrorFn←'ERRORS.OnError'
+ router.OnResponseFn←'Log'
+
+ '/products'             router.Get   ('PRODUCTS.List'  (PRODUCTS.List'⍠SPEC'))
+ '/products/{productId}' router.Get   ('PRODUCTS.Get'   (PRODUCTS.Get'⍠SPEC'))
+ '/quotes'               router.Post  ('QUOTES.Create'  (QUOTES.Create'⍠SPEC'))
+ '/quotes'               router.Get   ('QUOTES.List'    (QUOTES.List'⍠SPEC'))
+ '/quotes/{quoteId}'     router.Get   ('QUOTES.Get'     (QUOTES.Get'⍠SPEC'))
+ '/quotes/{quoteId}'     router.Put   ('QUOTES.Replace' (QUOTES.Replace'⍠SPEC'))
+ '/quotes/{quoteId}'     router.Delete('QUOTES.Delete'  (QUOTES.Delete'⍠SPEC'))
+
+ router.Start Port

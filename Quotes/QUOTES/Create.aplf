@@ -1,0 +1,24 @@
+ r←Create req;bad
+⍝ POST /quotes
+ :If '⍠SPEC'≡req
+     r←(
+         operationId:'CreateQuote'
+         summary:'Create a quotation'
+         description:'Prices the items from the catalogue and stores the quotation.'
+         tags:('quotes'⋄)
+         requestBody:##.SPEC.quoteRequest
+         responses:(201(##.SPEC.Ref'Quote'))(400(##.SPEC.Ref'Error'))(401(##.SPEC.Ref'Error'))
+     )
+     :Return
+ :EndIf
+ :If ×≢bad←VALIDATE.Request req.Payload
+     r←req ##.ERRORS.Reject 400,bad
+ :Else
+     :Hold 'quotes'
+         r←nextId Price req.Payload
+         quotes,←r
+         nextId+←1
+     :EndHold
+     req.SetStatus 201
+     'Location'req.SetHeader'/quotes/',⍕r.id
+ :EndIf

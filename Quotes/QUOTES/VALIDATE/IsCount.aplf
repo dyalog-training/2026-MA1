@@ -1,0 +1,1 @@
+ IsCount←{(0=≢⍴⍵)∧(10|⎕DR ⍵)∊1 3 5 7:(⍵=⌊⍵)∧⍵≥1 ⋄ 0}   ⍝ JSON true and null import as 326

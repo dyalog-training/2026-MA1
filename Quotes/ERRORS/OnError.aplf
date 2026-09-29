@@ -1,0 +1,3 @@
+ r←err OnError req
+⍝ Stark's OnErrorFn: a 500 with an Error body
+ r←Error'INTERNAL_ERROR'(err.EM,': ',{⍵↓⍨+/∧\' '=⍵}2⊃err.DM)''

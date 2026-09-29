@@ -1,0 +1,4 @@
+ Setup packages
+⍝ Load the Tatin dependencies from the packages folder into #, so #.Stark and #.Jarvis
+⍝ sit beside Quotes. Install them first with Install.apls.
+ ⎕←⍪⎕SE.Tatin.LoadDependencies packages #

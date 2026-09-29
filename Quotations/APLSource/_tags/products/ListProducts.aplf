@@ -1,0 +1,29 @@
+response←ListProducts argsNs;headerParams;queryParams;body;clientArgs;secSchemes
+⍝ GET /products
+⍝ List the products in the catalogue
+headerParams←⍬
+queryParams←()
+body←()
+
+
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'get'
+    URL: ('/products' ⋄ ())
+    Headers: headerParams
+)
+
+secSchemes←⍬
+secSchemes,←⊂'apiKey'
+⍝ Auth fn
+clientArgs←clientArgs c.∆.utils.Authenticate secSchemes
+
+queryParams←queryParams ⎕NS 2⊃clientArgs.URL
+clientArgs.URL←⊃clientArgs.URL
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode (queryParams)
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs
