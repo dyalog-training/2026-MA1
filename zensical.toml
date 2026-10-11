@@ -1,0 +1,60 @@
+[project]
+site_name = "Web Services in APL"
+site_description = "Exercises for the Dyalog '26 workshop MA1: Web Services in APL: An Introduction to REST and OpenAPI"
+site_author = "Brian Becker & Holden Hoover"
+site_url = "https://dyalog-training.github.io/2026-MA1/"
+repo_url = "https://github.com/dyalog-training/2026-MA1"
+repo_name = "dyalog-training/2026-MA1"
+copyright = "Copyright &copy; 2026 Dyalog Ltd"
+extra_css = ["assets/stylesheets/apl.css"]
+nav = [
+  { "Home" = "index.md" },
+  { "Setup" = "setup.md" },
+  { "Exercise 1: OpenMeteo" = "exercise-1.md" },
+  { "Exercise 2: Quotations" = "exercise-2.md" },
+  { "Stark walkthrough" = "stark.md" },
+  { "Exercise 3: Your own API" = "exercise-3.md" },
+  { "Reference card" = "reference.md" },
+]
+
+[project.theme]
+language = "en"
+features = [
+  "content.code.copy",
+  "content.code.select",
+  "navigation.footer",
+  "navigation.instant",
+  "navigation.path",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+]
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+
+[project.markdown_extensions]
+admonition = {}
+attr_list = {}
+md_in_html = {}
+toc.permalink = true
+pymdownx.details = {}
+pymdownx.highlight.anchor_linenums = true
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.superfences = {}
+pymdownx.tabbed.alternate_style = true

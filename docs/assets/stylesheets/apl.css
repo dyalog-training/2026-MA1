@@ -1,0 +1,15 @@
+/* APL386 Unicode (public domain, https://github.com/abrudz/APL386) for all code, so APL glyphs
+   display for every reader and output columns line up. */
+@font-face {
+  font-family: "APL386";
+  src: url("../fonts/APL386.otf") format("opentype");
+  font-display: swap;
+}
+:root:root {
+  --md-code-font: "APL386";
+}
+
+/* Keep names such as r.HttpStatus whole in table cells */
+.md-typeset td code {
+  white-space: nowrap;
+}
